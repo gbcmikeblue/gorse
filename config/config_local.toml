@@ -29,13 +29,13 @@ data_table_prefix = ""
 [master]
 
 # GRPC port of the master node. The default value is 8086.
-port = 118086
+port = 18086
 
 # gRPC host of the master node. The default values is "0.0.0.0".
 host = "0.0.0.0"
 
 # HTTP port of the master node. The default values is 8088.
-http_port = 118088
+http_port = 18088
 
 # HTTP host of the master node. The default values is "0.0.0.0".
 http_host = "0.0.0.0"
@@ -55,10 +55,10 @@ n_jobs = 1
 meta_timeout = "10s"
 
 # Username for the master node dashboard.
-dashboard_user_name = "adminadmin"
+dashboard_user_name = "admin"
 
 # Password for the master node dashboard.
-dashboard_password = "admin123admin123"
+dashboard_password = "admin123"
 
 # Secret key for admin APIs (SSL required).
 admin_api_key = ""
@@ -228,7 +228,7 @@ explore_recommend = { popular = 0.1, latest = 0.2 }
 #   popular: Recommend popular items to cold-start users.
 #   latest: Recommend latest items to cold-start users.
 # Recommenders are used in order. The default values is ["latest"].
-fallback_recommend = ["popular", "popular", "latest", "item_based"]
+fallback_recommend = ["popular", "latest", "item_based"]
 
 # The number of feedback used in fallback item-based similar recommendation. The default values is 10.
 num_feedback_fallback_item_based = 10
