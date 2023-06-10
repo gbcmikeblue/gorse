@@ -670,6 +670,7 @@ func (s *RestServer) getItemNeighbors(request *restful.Request, response *restfu
 func (s *RestServer) getUserNeighbors(request *restful.Request, response *restful.Response) {
 	// Get item id
 	userId := request.PathParameter("user-id")
+	log.Logger().Debug("cache.UserNeighbors", zap.String("UserNeighbors", cache.UserNeighbors))
 	s.searchDocuments(cache.UserNeighbors, userId, "", false, request, response)
 }
 
