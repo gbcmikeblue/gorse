@@ -3,23 +3,21 @@
 # The database for caching, support Redis, MySQL, Postgres and MongoDB:
 #   redis://<user>:<password>@<host>:<port>/<db_number>
 #   rediss://<user>:<password>@<host>:<port>/<db_number>
-#   redis+cluster://<user>:<password>@<host1>:<port1>,<host2>:<port2>,...,<hostN>:<portN>
 #   postgres://bob:secret@1.2.3.4:5432/mydb?sslmode=verify-full
 #   postgresql://bob:secret@1.2.3.4:5432/mydb?sslmode=verify-full
 #   mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]
 #   mongodb+srv://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]
-cache_store = "redis://localhost:6379/0"
+# cache_store = "redis://192.168.31.32:16379/0"
+cache_store = "redis://192.168.3.155:16379/0"
 
-# The database for persist data, support MySQL, Postgres, ClickHouse and MongoDB:
+# The database for persist data, support MySQL, Postgres and MongoDB:
 #   mysql://[username[:password]@][protocol[(address)]]/dbname[?param1=value1&...&paramN=valueN]
 #   postgres://bob:secret@1.2.3.4:5432/mydb?sslmode=verify-full
 #   postgresql://bob:secret@1.2.3.4:5432/mydb?sslmode=verify-full
-#   clickhouse://user:password@host[:port]/database?param1=value1&...&paramN=valueN
-#   chhttp://user:password@host[:port]/database?param1=value1&...&paramN=valueN
-#   chhttps://user:password@host[:port]/database?param1=value1&...&paramN=valueN
 #   mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]
 #   mongodb+srv://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]
-data_store = "mysql://gorse:gorse_pass@tcp(localhost:3306)/gorse"
+# data_store = "mysql://root:root123@tcp(192.168.31.32:13306)/gorse"
+data_store = "mysql://root:gbc123456@tcp(192.168.3.155:3306)/gorse"
 
 # The naming prefix for tables (collections, keys) in databases. The default value is empty.
 table_prefix = ""
@@ -33,13 +31,13 @@ data_table_prefix = ""
 [master]
 
 # GRPC port of the master node. The default value is 8086.
-port = 8086
+port = 18086
 
 # gRPC host of the master node. The default values is "0.0.0.0".
 host = "0.0.0.0"
 
 # HTTP port of the master node. The default values is 8088.
-http_port = 8088
+http_port = 18088
 
 # HTTP host of the master node. The default values is "0.0.0.0".
 http_host = "0.0.0.0"
@@ -59,10 +57,10 @@ n_jobs = 1
 meta_timeout = "10s"
 
 # Username for the master node dashboard.
-dashboard_user_name = ""
+dashboard_user_name = "admin"
 
 # Password for the master node dashboard.
-dashboard_password = ""
+dashboard_password = "admin123"
 
 # Secret key for admin APIs (SSL required).
 admin_api_key = ""
@@ -90,15 +88,18 @@ cache_expire = "10s"
 [recommend]
 
 # The cache size for recommended/popular/latest items. The default value is 10.
-cache_size = 100
+cache_size = 1000
 
 # Recommended cache expire time. The default value is 72h.
 cache_expire = "72h"
 
+# The time-to-live (days) of active users, 0 means disabled. Recommendation won't be cached for inactive users. The default value is 0.
+active_user_ttl = 30
+
 [recommend.data_source]
 
 # The feedback types for positive events.
-positive_feedback_types = ["star","like"]
+positive_feedback_types = ["like","collection","comment"]
 
 # The feedback types for read events.
 read_feedback_types = ["read"]
@@ -201,13 +202,13 @@ refresh_recommend_period = "24h"
 enable_latest_recommend = true
 
 # Enable popular recommendation during offline recommendation. The default value is false.
-enable_popular_recommend = false
+enable_popular_recommend = true
 
 # Enable user-based similarity recommendation during offline recommendation. The default value is false.
 enable_user_based_recommend = true
 
 # Enable item-based similarity recommendation during offline recommendation. The default value is false.
-enable_item_based_recommend = false
+enable_item_based_recommend = true
 
 # Enable collaborative filtering recommendation during offline recommendation. The default value is true.
 enable_collaborative_recommend = true
@@ -229,7 +230,7 @@ explore_recommend = { popular = 0.1, latest = 0.2 }
 #   popular: Recommend popular items to cold-start users.
 #   latest: Recommend latest items to cold-start users.
 # Recommenders are used in order. The default values is ["latest"].
-fallback_recommend = ["item_based", "latest"]
+fallback_recommend = ["popular", "latest", "item_based"]
 
 # The number of feedback used in fallback item-based similar recommendation. The default values is 10.
 num_feedback_fallback_item_based = 10
